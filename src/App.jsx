@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import { Routes, Route } from 'react-router-dom';
@@ -7,10 +7,8 @@ import { Header } from './Header'
 import {ArticleList} from './ArticleList'
 import SingleArticle from './SingleArticle';
 
-
 function App() {
   const [articleList, setArticleList] = useState([]);
- 
   return (
     <div className='links'>
 			<Header />

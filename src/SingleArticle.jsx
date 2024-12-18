@@ -1,14 +1,14 @@
 import { useParams } from 'react-router-dom';
-import { fetchArticleById, fetchCommentsByArticle } from './utils/api';
+import { fetchArticleById, fetchCommentsByArticle , voteArticle} from './utils/api';
 import { useEffect, useState } from 'react';
 import CommentsCard from './CommentsCard';
 
 const SingleArticle = () => {
-      const [singleArticle, setSingleArticle] = useState([]);
+      const [singleArticle, setSingleArticle] = useState({});
       const [singleArticleComments, setSingleArticleComments] = useState([]);
-
       const {article_id} = useParams();
-       useEffect(() => {
+
+      useEffect(() => {
               const getArticle = async () => {
                 try {
                   const article = await fetchArticleById(article_id);
@@ -21,13 +21,21 @@ const SingleArticle = () => {
               };
           
               getArticle();
-            }, []);
+      }, []);
 
+      const handleVote = async (voteAmount) => {
+            try {
+              const updatedArticle = await voteArticle(article_id, voteAmount);
+              setSingleArticle(updatedArticle); 
+            } catch (error) {
+              console.error('Error voting on article:', error);
+            }
+      };
 
 	return (
             <>
-            <li className="article-card">
-                  <h1>{singleArticle.title}</h1>
+            <article className="article-card">
+                  <h2>{singleArticle.title}</h2>
                   <p>Author: {singleArticle.author}</p>
                   <p>{singleArticle.topic}</p>
                   <p>{singleArticle.created_at}</p>
@@ -35,7 +43,9 @@ const SingleArticle = () => {
                   <img src={singleArticle.article_img_url}></img>
                   <p>Votes: {singleArticle.votes}</p>
                   <p>Comments: {singleArticle.comment_count}</p>
-		</li>
+                  <button onClick={() => handleVote(1)}>Upvote</button>
+                  <button onClick={() => handleVote(-1)}>Downvote</button>
+		</article>
             <ul>
                   {singleArticleComments.map((comment) => {
                         return <CommentsCard key={comment.comment_id} comment={comment} />
