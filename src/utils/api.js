@@ -12,3 +12,9 @@ export const fetchArticleById = async (article_id) => {
     const response = await axios.get(API_URL + '/' +article_id);
     return response.data; 
 };
+
+
+export const fetchCommentsByArticle = async (article_id) => {
+    const response = await axios.get(API_URL + '/' +article_id+ '/comments');
+    return response.data.comments; 
+};
