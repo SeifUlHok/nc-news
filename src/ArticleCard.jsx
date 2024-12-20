@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import React, { useState } from 'react';
 import { voteArticle } from './utils/api'; 
 
-const ArticleCard = ({ article}) => {
+const ArticleCard = ({ article, setArticleList}) => {
   const [votes, setVotes] = useState(article.votes); 
 
   const handleVote = async (voteAmount) => {
@@ -11,6 +11,11 @@ const ArticleCard = ({ article}) => {
       const updatedArticle = await voteArticle(article.article_id, voteAmount);
       setVotes(updatedArticle.votes); 
 
+      setArticleList((prevList) =>
+        prevList.map((a) =>
+          a.article_id === updatedArticle.article_id ? updatedArticle : a
+        )
+      );
     } catch (error) {
       console.error('Error voting on article:', error);
     }

@@ -17,7 +17,7 @@ function App() {
 					path='/Articles'
 					element={<ArticleList articleList={articleList} setArticleList={setArticleList} />}
 				></Route>
-        		<Route path="/Articles/:article_id" element={<SingleArticle />} />
+        		<Route path="/Articles/:article_id" element={<SingleArticle setArticleList={setArticleList}/>} />
 			</Routes>
 		</div>
   )

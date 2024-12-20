@@ -18,11 +18,10 @@ export const ArticleList = ({ articleList, setArticleList }) => {
     
         getArticles();
       }, []);
-
     return (
         <ul>{
                 articleList.map((article) => {
-                    return <ArticleCard key={article.article_id} article={article} />
+                    return <ArticleCard key={article.article_id} article={article} setArticleList={setArticleList} articleList={articleList}/>
                 })
             }
         </ul>
