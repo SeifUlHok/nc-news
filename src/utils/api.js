@@ -24,3 +24,7 @@ export const voteArticle = async (article_id, voteAmount) => {
     return response.data; 
 };
 
+export const postComment = async (article_id, commentData) => {
+    const response = await axios.post(`${API_URL}/${article_id}/comments`, commentData);
+    return response.data.comment;
+  };
