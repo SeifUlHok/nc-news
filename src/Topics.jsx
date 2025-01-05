@@ -1,7 +1,7 @@
 // Topics.jsx
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchTopics } from './utils/api';
+import { fetchTopics } from './utils/apiCalls';
 
 const Topics = () => {
   const [topics, setTopics] = useState([]);

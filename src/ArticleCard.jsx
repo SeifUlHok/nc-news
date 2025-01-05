@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import React, { useState } from 'react';
-import { voteArticle } from './utils/api';
+import { voteArticle } from './utils/apiCalls';
 
 const ArticleCard = ({ article, showVote }) => {
   const [votes, setVotes] = useState(article.votes);

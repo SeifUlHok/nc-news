@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { fetchArticleById, fetchCommentsByArticle, voteArticle, postComment } from './utils/api';
+import { fetchArticleById, fetchCommentsByArticle, voteArticle, postComment } from './utils/apiCalls';
 import { useEffect, useState } from 'react';
 import CommentsCard from './CommentsCard';
 import { formatDate } from './utils/helpers';
