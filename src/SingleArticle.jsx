@@ -1,14 +1,17 @@
 import { useParams } from 'react-router-dom';
-import { fetchArticleById, fetchCommentsByArticle, voteArticle , postComment } from './utils/api';
+import { fetchArticleById, fetchCommentsByArticle, voteArticle, postComment } from './utils/api';
 import { useEffect, useState } from 'react';
 import CommentsCard from './CommentsCard';
+import { formatDate } from './utils/helpers';
 
-const SingleArticle = ({setArticleList}) => {
+const SingleArticle = ({ setArticleList }) => {
   const [singleArticle, setSingleArticle] = useState({});
   const [singleArticleComments, setSingleArticleComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
   const { article_id } = useParams();
+  const currentUser = 'butter_bridge';  // Use the actual logged-in user here
 
   useEffect(() => {
     const getArticle = async () => {
@@ -18,7 +21,7 @@ const SingleArticle = ({setArticleList}) => {
         setSingleArticle(article);
         setSingleArticleComments(comments);
       } catch (error) {
-        console.error('Failed to load articles:', error);
+        setError('Failed to load article or comments.');
       }
     };
 
@@ -26,6 +29,7 @@ const SingleArticle = ({setArticleList}) => {
   }, [article_id]);
 
   const handleVote = async (voteAmount) => {
+    setError(null);
     try {
       const updatedArticle = await voteArticle(article_id, voteAmount);
       setSingleArticle(updatedArticle);
@@ -35,42 +39,64 @@ const SingleArticle = ({setArticleList}) => {
         )
       );
     } catch (error) {
-      console.error('Error voting on article:', error);
+      setError('Failed to update vote. Please try again.');
     }
   };
-
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     if (!newComment.trim()) {
-      return; 
+      return;
     }
-
-    setIsSubmitting(true); 
+  
+    setIsSubmitting(true);
+    setError(null);
     try {
       const commentData = {
-        username: 'butter_bridge',
+        username: currentUser,
         body: newComment,
       };
       const postedComment = await postComment(article_id, commentData);
       setSingleArticleComments((prevComments) => [postedComment, ...prevComments]);
-      console.log(singleArticleComments)
-      setNewComment(''); 
+      
+      // Ensure comment_count is treated as a number
+      setSingleArticle((prevArticle) => ({
+        ...prevArticle,
+        comment_count: Number(prevArticle.comment_count) + 1,  // Convert to number and increment
+      }));
+  
+      setNewComment('');
     } catch (error) {
-      console.error('Error posting comment:', error);
+      setError('Failed to post comment. Please try again.');
     } finally {
-      setIsSubmitting(false); 
+      setIsSubmitting(false);
     }
   };
+  
+  const handleDeleteComment = (commentId) => {
+    // Remove the comment from the state immediately after deletion
+    setSingleArticleComments((prevComments) =>
+      prevComments.filter((comment) => comment.comment_id !== commentId)
+    );
+  
+    // Ensure comment_count is treated as a number
+    setSingleArticle((prevArticle) => ({
+      ...prevArticle,
+      comment_count: Number(prevArticle.comment_count) - 1,  // Convert to number and decrement
+    }));
+  };
+  
+
   return (
     <>
+      {error && <p className="error-message">{error}</p>}
       <article className="article-card">
         <h2>{singleArticle.title}</h2>
         <p>Author: {singleArticle.author}</p>
         <p>{singleArticle.topic}</p>
-        <p>{singleArticle.created_at}</p>
+        <p>{singleArticle.created_at ? formatDate(singleArticle.created_at) : 'Date not available'}</p>
         <p>{singleArticle.body}</p>
-        <img src={singleArticle.article_img_url} alt={singleArticle.title}></img>
+        <img src={singleArticle.article_img_url} alt={singleArticle.title} />
         <p>Votes: {singleArticle.votes}</p>
         <p>Comments: {singleArticle.comment_count}</p>
         <button onClick={() => handleVote(1)}>Upvote</button>
@@ -83,23 +109,25 @@ const SingleArticle = ({setArticleList}) => {
           onChange={(e) => setNewComment(e.target.value)}
           placeholder="Add a comment..."
           required
-        ></textarea>
+        />
         <button type="submit" disabled={isSubmitting}>
           {isSubmitting ? 'Posting...' : 'Post Comment'}
         </button>
       </form>
 
       <ul>
-        {Array.isArray(singleArticleComments) && singleArticleComments.length > 0
-          ? singleArticleComments.map((comment) => {
-              if (comment && comment.comment_id) {
-                return <CommentsCard key={comment.comment_id} comment={comment} />;
-              } else {
-                return null;
-              }
-            })
-          : <p>No comments yet. Be the first to comment!</p>
-        }
+        {singleArticleComments.length > 0 ? (
+          singleArticleComments.map((comment) => (
+            <CommentsCard
+              key={comment.comment_id}
+              comment={comment}
+              currentUser={currentUser}  // Pass the logged-in user
+              onDelete={handleDeleteComment}  // Pass the delete callback
+            />
+          ))
+        ) : (
+          <p>No comments yet. Be the first to comment!</p>
+        )}
       </ul>
     </>
   );
