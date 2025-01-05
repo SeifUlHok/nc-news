@@ -33,13 +33,9 @@ const SingleArticle = ({ setArticleList }) => {
     try {
       const updatedArticle = await voteArticle(article_id, voteAmount);
       setSingleArticle(updatedArticle);
-      setArticleList((prevList) =>
-        prevList.map((a) =>
-          a.article_id === updatedArticle.article_id ? updatedArticle : a
-        )
-      );
     } catch (error) {
       setError('Failed to update vote. Please try again.');
+      console.log(error)
     }
   };
 
