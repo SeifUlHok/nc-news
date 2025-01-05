@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ArticleCard from './ArticleCard';
-import { fetchArticles } from './utils/api';
+import { fetchArticles } from './utils/apiCalls';
 
 export const ArticleList = () => {
   const [articleList, setArticleList] = useState([]);

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { deleteComment } from './utils/api';  // Import the delete function
+import { deleteComment } from './utils/apiCalls';  // Import the delete function
 
 const CommentsCard = ({ comment, currentUser, onDelete }) => {
   const [isDeleting, setIsDeleting] = useState(false);
