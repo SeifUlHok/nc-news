@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { deleteComment } from './utils/apiCalls';  // Import the delete function
+import { deleteComment } from './utils/apiCalls';  
 
 const CommentsCard = ({ comment, currentUser, onDelete }) => {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -16,8 +16,8 @@ const CommentsCard = ({ comment, currentUser, onDelete }) => {
     setIsDeleting(true);
     setError(null);
     try {
-      await deleteComment(comment.article_id, comment.comment_id);  // Use the DELETE request
-      onDelete(comment.comment_id);  // Call the onDelete callback to update the UI
+      await deleteComment(comment.article_id, comment.comment_id);  
+      onDelete(comment.comment_id); 
     } catch (err) {
       setError('Failed to delete comment. Please try again.');
     } finally {

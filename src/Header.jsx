@@ -1,4 +1,3 @@
-// Header.jsx
 export const Header = () => {
 	return (
 	  <header>
@@ -7,7 +6,7 @@ export const Header = () => {
 		  <div className="links">
 			<a href="/">Home</a>
 			<a href="/articles">Articles</a>
-			<a href="/topics">Topics</a> {/* Link to the Topics page */}
+			<a href="/topics">Topics</a> 
 		  </div>
 		  <div className="user-info">
 			Logged in as: <span>butter_bridge</span>

@@ -1,4 +1,3 @@
-// apiCalls.js
 import api from './api';
 
 export const fetchArticles = async (topic, sortBy = 'created_at', order = 'desc') => {

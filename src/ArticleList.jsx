@@ -1,4 +1,3 @@
-// ArticleList.jsx
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ArticleCard from './ArticleCard';
@@ -8,15 +7,15 @@ export const ArticleList = () => {
   const [articleList, setArticleList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [sortBy, setSortBy] = useState('created_at'); // Default sort by date
-  const [order, setOrder] = useState('desc'); // Default order: descending
-  const { topic } = useParams(); // Access the topic from the URL
+  const [sortBy, setSortBy] = useState('created_at'); 
+  const [order, setOrder] = useState('desc'); 
+  const { topic } = useParams(); 
 
   useEffect(() => {
     const getArticles = async () => {
       setIsLoading(true);
       try {
-        const articles = await fetchArticles(topic, sortBy, order); // Pass topic, sortBy, and order
+        const articles = await fetchArticles(topic, sortBy, order); 
         setArticleList(articles);
       } catch (err) {
         setError('Failed to load articles');
@@ -26,14 +25,14 @@ export const ArticleList = () => {
     };
 
     getArticles();
-  }, [topic, sortBy, order]); // Re-run the effect when topic, sortBy, or order changes
+  }, [topic, sortBy, order]);
 
   const handleSortChange = (e) => {
-    setSortBy(e.target.value); // Update the sorting criteria
+    setSortBy(e.target.value);
   };
 
   const toggleOrder = () => {
-    setOrder((prevOrder) => (prevOrder === 'asc' ? 'desc' : 'asc')); // Toggle between ascending and descending
+    setOrder((prevOrder) => (prevOrder === 'asc' ? 'desc' : 'asc')); 
   };
 
   if (isLoading) {

@@ -11,7 +11,7 @@ const SingleArticle = ({ setArticleList }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const { article_id } = useParams();
-  const currentUser = 'butter_bridge';  // Use the actual logged-in user here
+  const currentUser = 'butter_bridge'; 
 
   useEffect(() => {
     const getArticle = async () => {
@@ -55,10 +55,9 @@ const SingleArticle = ({ setArticleList }) => {
       const postedComment = await postComment(article_id, commentData);
       setSingleArticleComments((prevComments) => [postedComment, ...prevComments]);
       
-      // Ensure comment_count is treated as a number
       setSingleArticle((prevArticle) => ({
         ...prevArticle,
-        comment_count: Number(prevArticle.comment_count) + 1,  // Convert to number and increment
+        comment_count: Number(prevArticle.comment_count) + 1,  
       }));
   
       setNewComment('');
@@ -70,15 +69,13 @@ const SingleArticle = ({ setArticleList }) => {
   };
   
   const handleDeleteComment = (commentId) => {
-    // Remove the comment from the state immediately after deletion
     setSingleArticleComments((prevComments) =>
       prevComments.filter((comment) => comment.comment_id !== commentId)
     );
   
-    // Ensure comment_count is treated as a number
     setSingleArticle((prevArticle) => ({
       ...prevArticle,
-      comment_count: Number(prevArticle.comment_count) - 1,  // Convert to number and decrement
+      comment_count: Number(prevArticle.comment_count) - 1,  
     }));
   };
   
@@ -117,8 +114,8 @@ const SingleArticle = ({ setArticleList }) => {
             <CommentsCard
               key={comment.comment_id}
               comment={comment}
-              currentUser={currentUser}  // Pass the logged-in user
-              onDelete={handleDeleteComment}  // Pass the delete callback
+              currentUser={currentUser} 
+              onDelete={handleDeleteComment} 
             />
           ))
         ) : (

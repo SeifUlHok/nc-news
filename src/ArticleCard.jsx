@@ -10,7 +10,7 @@ const ArticleCard = ({ article, showVote }) => {
     try {
       const updatedArticle = await voteArticle(article.article_id, voteAmount);
       setVotes(updatedArticle.votes);
-      setError(null); // Clear previous error
+      setError(null); 
     } catch (error) {
       setError('Failed to submit your vote. Please try again.');
     }
