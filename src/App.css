@@ -201,3 +201,34 @@ header .user-info {
     flex-direction: column;
   }
 }
+
+.sort-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.sort-controls label {
+  font-weight: bold;
+}
+
+.sort-controls select {
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.sort-controls button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  background-color: #646cff;
+  color: white;
+  cursor: pointer;
+}
+
+.sort-controls button:hover {
+  background-color: #545bf3;
+}

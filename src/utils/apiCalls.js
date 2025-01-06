@@ -1,10 +1,11 @@
 // apiCalls.js
 import api from './api';
 
-export const fetchArticles = async (topic) => {
-  const response = await api.get('/articles', { params: { topic } });
+export const fetchArticles = async (topic, sortBy = 'created_at', order = 'desc') => {
+  const response = await api.get('/articles', { params: { topic, sort_by: sortBy, order } });
   return response.data.articles;
 };
+
 
 export const fetchArticleById = async (article_id) => {
   const response = await api.get(`/articles/${article_id}`);
